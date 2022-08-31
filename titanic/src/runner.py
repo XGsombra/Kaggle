@@ -1,6 +1,7 @@
 import pandas as pd
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import cross_validate, GridSearchCV
+from sklearn.preprocessing import StandardScaler
 
 # constants
 TRAIN_DATA_PATH = "titanic\data\\train.csv"
@@ -18,6 +19,12 @@ features = ["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"]
 X = pd.get_dummies(train_df[features])
 y = train_df[Y_LABEL]
 X_test = pd.get_dummies(test_df[features])
+# X.loc[(X.Age.isnull()), 'Age'] = X.Age.dropna().mean()
+
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+X_test = scaler.transform(X_test)
+
 # deal with missing values
 
 
